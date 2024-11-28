@@ -9,9 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator; // Reference to the Animator component
-    private bool isMoving = false;
-    private bool isFacingRight = true; // Track the player's facing direction
     private bool isGrounded = true; // Check if the player is on the ground
+    private bool isRunning = false; // Check if the player is running
 
     private float lastPressTime = 0f; // Time of the last press
     private int pressCount = 0; // Count the number of presses within the time window
@@ -35,23 +34,39 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Check for input (Spacebar or Left Mouse Button)
-        bool isPressed = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
+        // Get the mouse position in world space
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (isPressed)
+        // Check if the mouse is on the right or left of the player
+        if (mousePosition.x > transform.position.x && transform.localScale.x < 0)
+        {
+            Flip(true); // Face right
+        }
+        else if (mousePosition.x < transform.position.x && transform.localScale.x > 0)
+        {
+            Flip(false); // Face left
+        }
+
+        // Check if the mouse is at the same position as the player
+        if (Mathf.Abs(mousePosition.x - transform.position.x) < 0.1f) // Small threshold for precision
+        {
+            isRunning = false;
+        }
+        else
+        {
+            isRunning = true;
+        }
+
+        // Check for mouse input (double click for jump)
+        if (Input.GetMouseButtonDown(0)) // Left mouse button
         {
             if (Time.time - lastPressTime <= pressWindowTime)
             {
                 pressCount++;
 
-                if (pressCount == 2 && isGrounded) // Double press: Jump
+                if (pressCount == 2 && isGrounded) // Double click: Jump
                 {
                     Jump();
-                    pressCount = 0; // Reset the press count
-                }
-                else if (pressCount == 3) // Triple press: Flip
-                {
-                    Flip();
                     pressCount = 0; // Reset the press count
                 }
             }
@@ -64,43 +79,25 @@ public class PlayerMovement : MonoBehaviour
             lastPressTime = Time.time; // Update the last press time
         }
 
-        // Check if the input is held down
-        isMoving = Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0);
-
         // Update the animation state
         if (animator != null)
         {
-            animator.SetBool("isRunning", isMoving && isGrounded);
-
-            // Set jump and fall animations based on vertical velocity
-            if (!isGrounded)
-            {
-                if (rb.velocity.y > 0)
-                {
-                    animator.SetBool("isJumping", true);
-                    animator.SetBool("isFalling", false);
-                }
-                else if (rb.velocity.y < 0)
-                {
-                    animator.SetBool("isJumping", false);
-                    animator.SetBool("isFalling", true);
-                }
-            }
-            else
-            {
-                animator.SetBool("isJumping", false);
-                animator.SetBool("isFalling", false);
-            }
+            animator.SetBool("isRunning", isRunning && isGrounded); // Running only when moving and grounded
         }
     }
 
     void FixedUpdate()
     {
-        // Apply movement if the player is moving
-        if (isMoving)
+        if (isRunning)
         {
-            float direction = isFacingRight ? 1 : -1; // Determine the direction based on facing
+            // Move the player forward constantly
+            float direction = transform.localScale.x > 0 ? 1 : -1; // Direction based on facing
             rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
+        }
+        else
+        {
+            // Stop the player if idle
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
     }
 
@@ -113,17 +110,12 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Jumped!");
     }
 
-    void Flip()
+    void Flip(bool faceRight)
     {
-        // Flip the direction the player is facing
-        isFacingRight = !isFacingRight;
-
-        // Flip the sprite's local scale (to visually flip the character)
+        // Flip the sprite based on the direction
         Vector3 scale = transform.localScale;
-        scale.x *= -1;
+        scale.x = faceRight ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
         transform.localScale = scale;
-
-        Debug.Log("Flipped!");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
