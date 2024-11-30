@@ -118,6 +118,12 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = scale;
     }
 
+    public bool canAttack()
+    {
+        return isGrounded;
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the player has landed on the ground
