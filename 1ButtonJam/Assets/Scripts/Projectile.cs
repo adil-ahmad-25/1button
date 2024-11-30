@@ -30,9 +30,16 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        hit = true;
-        boxCollider.enabled = false;
-        ani.SetTrigger("Hit");
+        if (collision.CompareTag("Player"))
+        {
+            hit = false;
+        }
+        else
+        {
+            hit = true;
+            boxCollider.enabled = false;
+            ani.SetTrigger("Hit");
+        }
     }
 
     public void SetDirection(float _direction)
