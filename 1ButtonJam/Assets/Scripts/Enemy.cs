@@ -31,13 +31,14 @@ public class Enemy : MonoBehaviour
         // Move towards the current patrol target
         transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
 
-        // Check if the enemy has reached the patrol target
-        if (Vector2.Distance(transform.position, currentTarget.position) < 0.1f)
+        // Check if the enemy has reached the patrol target based on the x-coordinate only
+        if (Mathf.Abs(transform.position.x - currentTarget.position.x) < 0.1f)
         {
             Flip(); // Flip direction
             currentTarget = (currentTarget == pointA) ? pointB : pointA; // Switch target
         }
     }
+
 
     private void Flip()
     {
