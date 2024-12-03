@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1795572476530817390}
   - component: {fileID: 7790126983471858381}
   - component: {fileID: 8399597950364260128}
+  - component: {fileID: 6892867705193524290}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -31,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 833239537763244305}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
@@ -250,6 +251,22 @@ MonoBehaviour:
   - {fileID: 0}
   fullHeart: {fileID: -1320280323238811707, guid: cd4c8551680c4924fac9e68ea0978298, type: 3}
   emptyHeart: {fileID: 8386352124037674100, guid: 9931dfcd2fcabce47a74bd058706f318, type: 3}
+--- !u!114 &6892867705193524290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833239537763244305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba712a3156586b94585f70b749658a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 3
+  ladderLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &4262264838320252426
 GameObject:
   m_ObjectHideFlags: 0
