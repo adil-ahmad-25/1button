@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerLadderClimb : MonoBehaviour
@@ -9,8 +8,6 @@ public class PlayerLadderClimb : MonoBehaviour
 
     private bool isInContactWithLadder = false; // Check if the player is near a ladder
     private bool isClimbing = false; // Check if the player is actively climbing
-    private float lastClickTime = 0f; // Track the last mouse click time
-    private float doubleClickThreshold = 0.3f; // Time threshold for double-click detection
 
     private Rigidbody2D rb; // Reference to the Rigidbody2D component
 
@@ -23,56 +20,22 @@ public class PlayerLadderClimb : MonoBehaviour
     {
         if (isInContactWithLadder)
         {
-            HandleLadderInput();
-        }
-
-        if (isClimbing)
-        {
-            ClimbLadder();
-        }
-    }
-
-    private void HandleLadderInput()
-    {
-        // Detect single or double left mouse clicks
-        if (Input.GetMouseButtonDown(0)) // Left mouse button pressed
-        {
-            float timeSinceLastClick = Time.time - lastClickTime;
-
-            if (timeSinceLastClick <= doubleClickThreshold)
+            if (Input.GetMouseButton(0)) // Left mouse button held
             {
-                // Double-click: Climb down
-                isClimbing = true;
-                StartCoroutine(ClimbDirection(-1)); // Negative direction for climbing down
+                StartClimbing();
             }
-            else
+            else if (isClimbing)
             {
-                // Single click: Climb up
-                isClimbing = true;
-                StartCoroutine(ClimbDirection(1)); // Positive direction for climbing up
+                StopClimbing();
             }
-
-            lastClickTime = Time.time;
         }
     }
 
-    private IEnumerator ClimbDirection(int direction)
+    private void StartClimbing()
     {
-        while (isClimbing)
-        {
-            rb.velocity = new Vector2(0, climbSpeed * direction); // Set vertical velocity
-            yield return null;
-        }
-    }
-
-    private void ClimbLadder()
-    {
+        isClimbing = true;
         rb.gravityScale = 0; // Disable gravity while climbing
-
-        if (Input.GetMouseButtonUp(0)) // Stop climbing when the left mouse button is released
-        {
-            StopClimbing();
-        }
+        rb.velocity = new Vector2(0, climbSpeed); // Move the player upward
     }
 
     private void StopClimbing()
@@ -88,6 +51,12 @@ public class PlayerLadderClimb : MonoBehaviour
         if ((ladderLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             isInContactWithLadder = true;
+
+            // Automatically start climbing if left mouse button is held
+            if (Input.GetMouseButton(0))
+            {
+                StartClimbing();
+            }
         }
     }
 
