@@ -3,14 +3,16 @@ using UnityEngine;
 public class SwitchController : MonoBehaviour
 {
     [Header("Switch Settings")]
-    public Sprite pressedSprite; // Sprite to show when the switch is pressed
+    public Sprite pressedSprite; // The sprite to show when the switch is pressed
     private SpriteRenderer spriteRenderer;
 
     [Header("Door Settings")]
-    public DoorController doorController; // Reference to the DoorController for the door
+    public Animator doorAnimator; // Animator component for the door
+    public string doorOpenTrigger = "Open"; // Trigger name to play the door open animation
+    public string doorOpenStateName = "DoorOpen"; // Name of the door open state in the Animator
 
     [Header("Persistent State")]
-    public string switchID = "Switch1"; // Unique identifier for the switch
+    public string switchID = "Switch1"; // Unique identifier for this switch
     public string playerPrefsKey = "SwitchState_"; // Key prefix for PlayerPrefs
 
     private bool isPressed = false;
@@ -19,17 +21,16 @@ public class SwitchController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Check the saved state
+        // Check if the switch has been previously pressed
         if (PlayerPrefs.GetInt(playerPrefsKey + switchID, 0) == 1)
         {
-            // Set the switch as already pressed
             isPressed = true;
             spriteRenderer.sprite = pressedSprite;
 
-            // Ensure the door is open
-            if (doorController != null)
+            // Ensure the door remains open
+            if (doorAnimator != null)
             {
-                doorController.OpenDoorPersistent();
+                doorAnimator.Play(doorOpenStateName, 0, 1f); // Set the door to the fully open state
             }
         }
     }
@@ -56,10 +57,10 @@ public class SwitchController : MonoBehaviour
             spriteRenderer.sprite = pressedSprite;
         }
 
-        // Immediately play the door open animation
-        if (doorController != null)
+        // Play the door open animation
+        if (doorAnimator != null)
         {
-            doorController.OpenDoor();
+            doorAnimator.SetTrigger(doorOpenTrigger);
         }
     }
 }
