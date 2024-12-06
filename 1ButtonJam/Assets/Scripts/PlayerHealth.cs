@@ -1,16 +1,27 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int health;
     public int numOfHearts;
 
-    public Image[] hearts;
+    [Header("UI Elements")]
+    public GameObject heartsCanvas; // Drag and drop your Hearts Canvas prefab here
+    public GameObject gameOverScreen; // Drag and drop your Game Over Screen prefab here
+
+    public UnityEngine.UI.Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+
+    private void Start()
+    {
+        // Ensure the Game Over screen is disabled at the start
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(false);
+        }
+    }
 
     private void Update()
     {
@@ -39,9 +50,14 @@ public class PlayerHealth : MonoBehaviour
                 hearts[i].enabled = false;
             }
         }
+
+        // Check if health has dropped to zero
+        if (health <= 0)
+        {
+            TriggerGameOver();
+        }
     }
 
-    // Function to handle taking damage
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -51,16 +67,25 @@ public class PlayerHealth : MonoBehaviour
         {
             health = 0;
         }
-
-        // Optional: Add logic here if the player dies (e.g., game over)
     }
 
-    // Detect collision with an enemy
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void TriggerGameOver()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        // Disable the hearts canvas
+        if (heartsCanvas != null)
         {
-            TakeDamage(1); // Reduce health by 1
+            heartsCanvas.SetActive(false);
         }
+
+        // Enable the game over screen
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
+
+        // Optionally: Freeze the game by setting time scale to 0
+        Time.timeScale = 0f;
+
+        // Add any other game-over logic (e.g., show restart buttons, etc.)
     }
 }
