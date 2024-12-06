@@ -88,4 +88,13 @@ public class PlayerHealth : MonoBehaviour
 
         // Add any other game-over logic (e.g., show restart buttons, etc.)
     }
+
+    // Handle collision with fire or enemy
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Fire"))
+        {
+            TriggerGameOver(); // Directly trigger Game Over
+        }
+    }
 }

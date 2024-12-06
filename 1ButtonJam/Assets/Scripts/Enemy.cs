@@ -39,7 +39,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     private void Flip()
     {
         facingRight = !facingRight; // Toggle facing direction
@@ -50,9 +49,23 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Check if a bullet hits the enemy
         if (collision.CompareTag("Bullet"))
         {
             TakeDamage(1); // Decrease health by 1
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if the player collides with the enemy
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1); // Decrease the player's health by 1
+            }
         }
     }
 
