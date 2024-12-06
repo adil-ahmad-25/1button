@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  jumpForce: 20
+  jumpForce: 21
   pressWindowTime: 0.3
 --- !u!114 &7790126983471858381
 MonoBehaviour:

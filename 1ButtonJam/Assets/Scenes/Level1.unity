@@ -2229,7 +2229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSprite: {fileID: 621934522, guid: b80b61bbf91066e4181aedc7019e08b8, type: 3}
-  doorAnimator: {fileID: 0}
+  doorAnimator: {fileID: 1617943328}
   doorOpenTrigger: Open
   doorOpenStateName: DoorOpen
   switchID: Switch1
