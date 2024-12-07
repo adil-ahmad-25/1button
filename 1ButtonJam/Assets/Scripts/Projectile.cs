@@ -12,10 +12,22 @@ public class Projectile : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Animator ani;
 
+    [Header("Sound Settings")]
+    [Tooltip("Drag and drop the sound effect for when the projectile hits.")]
+    [SerializeField] private AudioClip hitSound;
+    private AudioSource audioSource;
+
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         ani = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false; // Prevent audio from playing on instantiation
+        }
     }
 
     private void Update()
@@ -39,6 +51,12 @@ public class Projectile : MonoBehaviour
             hit = true;
             boxCollider.enabled = false;
             ani.SetTrigger("Hit");
+
+            // Play the hit sound effect
+            if (hitSound != null)
+            {
+                audioSource.PlayOneShot(hitSound);
+            }
         }
     }
 

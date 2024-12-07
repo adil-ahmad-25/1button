@@ -165,6 +165,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -682,7 +695,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      HeartsBeat_0: -7268362697384281700
+      HeartsBeat_1: -298481789291384842
+      HeartsBeat_10: -3835950101793154515
+      HeartsBeat_11: -6267427797132356462
+      HeartsBeat_12: -5897926154785629985
+      HeartsBeat_13: -2104319480033619036
+      HeartsBeat_14: -1183731976754268273
+      HeartsBeat_15: -5136680253218047868
+      HeartsBeat_16: 795314568776039888
+      HeartsBeat_17: -52309691990639253
+      HeartsBeat_18: 6256731633423363185
+      HeartsBeat_19: 553617749136946643
+      HeartsBeat_2: 7631383002773737117
+      HeartsBeat_20: 8031369507941560603
+      HeartsBeat_21: -9142665913178386924
+      HeartsBeat_22: 6675189192821275750
+      HeartsBeat_23: -7633360660747623583
+      HeartsBeat_3: 5110870105581284417
+      HeartsBeat_4: -6172595396708336968
+      HeartsBeat_5: 6663110801905149168
+      HeartsBeat_6: -2996719174857451894
+      HeartsBeat_7: 2069273605816043066
+      HeartsBeat_8: -7319071039014346856
+      HeartsBeat_9: 2295493816283026369
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
