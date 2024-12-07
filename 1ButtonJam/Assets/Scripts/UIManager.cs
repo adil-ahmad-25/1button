@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Starting New Game...");
         SceneManager.LoadScene("Intro");
+        Time.timeScale = 1f;
     }
 
     // Resume the current game by reloading the active scene
@@ -22,5 +23,6 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Resuming Current Scene...");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
     }
 }
